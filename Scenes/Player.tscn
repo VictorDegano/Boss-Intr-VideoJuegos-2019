@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Player.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Pixel Dungeon Assets/watabou pixel dungeon graphics/watabou pixel dungeon graphics/avatars.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.97868, 7.9971 )
+
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
+position = Vector2( 40, 40 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.6, 0.55 )
+texture = ExtResource( 2 )
+offset = Vector2( 1, 2 )
+hframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="RayCastNode" type="Node2D" parent="."]
+
+[node name="Up" type="RayCast2D" parent="RayCastNode"]
+enabled = true
+cast_to = Vector2( 0, -16 )
+collision_mask = 6
+
+[node name="Down" type="RayCast2D" parent="RayCastNode"]
+enabled = true
+cast_to = Vector2( 0, 16 )
+collision_mask = 6
+
+[node name="Right" type="RayCast2D" parent="RayCastNode"]
+enabled = true
+cast_to = Vector2( 16, 0 )
+collision_mask = 6
+
+[node name="Left" type="RayCast2D" parent="RayCastNode"]
+enabled = true
+cast_to = Vector2( -16, 0 )
+collision_mask = 6
+
+[node name="MovementTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.25, 0.25 )
+[connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]
